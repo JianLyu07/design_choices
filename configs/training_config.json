@@ -1,0 +1,57 @@
+{
+    // Models for which either the validation or test set exceeds target_save_1 will be saved
+    "target_save_1" : 0.98,
+    // Models for which both the validation and test sets exceed target_save_2 will be saved
+    "target_save_2" : 0.96,
+    // The primary evaluation metric used
+    "target_metric":"macro_f1",
+    
+    // The paths to the model and the dataset
+    "model_path" : "../../model/Qwen2.5-0.5B",      
+    "data_path" : "../data/SST5", 
+    
+    // The number of classification categories (excluding -100)
+    "num_labels" : 5, 
+    // The maximum length of input_ids in the dataset after tokenization
+    "max_length" : 512,    
+
+    // Full-parameter fine-tuning or LoRA fine-tuning? Enter "full" or "lora"
+    "finetune_pattern" : "lora",
+    
+    /*
+    Hyperparameters
+    */
+    // LoRA rank
+    "lora_rs" : [32, 16, 8],
+    // batchsize
+    "batchsizes" : [16, 8, 4], 
+    // learning rate
+    "lrs" : [0.001, 0.0005, 0.0003, 0.0001, 5e-05],
+    // If not None, use lr_1 as the learning rate when tuning_stage=1; otherwise, use the learning rate from lrs
+    "lr_1" : null,
+    // 1 trains the MLP layer, 2 trains the LoRA layer, and 3 trains both the MLP and LoRA layers simultaneously
+    "tuning_stages": [3],
+    // epochs
+    "epochs" : [10],
+    // Number of checkpoints per epoch
+    "num_checks" : 2, 
+
+    // lora config
+    "lora_alpha" : 32,
+    "lora_dropout" : 0.1,   
+    
+    // loss = loss + weight_decay*norm(W)
+    "weight_decay" : 0.01,
+
+    // Whether to account for class imbalance when calculating the loss
+    "use_loss_weight" : false,
+
+    // Task type
+    "task_type" : "TC",
+
+    // Strategy number, valid values: [1, 201, 3, 4, 5, 601, 7, 8]; [202, 203, 204 and 602, 603, 604] are used for ablation tests. 
+    "data_format" : 1,
+    
+    // If true, only a subset of the data is used for process testing; if false, full training is performed.
+    "is_attempt" : false
+}
